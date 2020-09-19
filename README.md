@@ -2,6 +2,8 @@
 
 Aplicación prueba desarrollador doc-doc
 
+Desarrollado por Andrés Bayona
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
