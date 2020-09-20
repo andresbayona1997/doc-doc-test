@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Animation/FadeAnimation.dart';
 import 'package:flutter_app/Services/auth.dart';
@@ -5,6 +7,8 @@ import 'package:flutter_app/Services/database.dart';
 import 'package:flutter_app/helper/helperFunctions.dart';
 import 'package:flutter_app/views/entrar.dart';
 import 'package:flutter_app/views/salaChat.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 class ValidarEntrar extends StatefulWidget{
 
@@ -17,7 +21,7 @@ class ValidarEntrar extends StatefulWidget{
 class _ValidarEntrarState extends State<ValidarEntrar>{
 
 
-
+  bool processing = false;
   bool isLoading = false;
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
@@ -28,6 +32,33 @@ class _ValidarEntrarState extends State<ValidarEntrar>{
   TextEditingController emailTextEditingController = new TextEditingController();
   TextEditingController ageTextEditingController = new TextEditingController();
   TextEditingController passwordTextEditingController = new TextEditingController();
+
+
+
+  void registerUser() async{
+
+    setState(() {
+      processing = true;
+    });
+    var url = "https://doc-doc-test.000webhostapp.com/login_flutter/signup.php";
+    var data = {
+      "email":emailTextEditingController.text,
+      "name":userNameTextEditingController.text,
+      "pass":passwordTextEditingController.text,
+      "age":ageTextEditingController.text,
+    };
+
+    var res = await http.post(url, body: data);
+
+      if(jsonDecode(res.body) == "true"){
+        Fluttertoast.showToast(msg: "account created",toastLength: Toast.LENGTH_SHORT);
+      }else{
+        Fluttertoast.showToast(msg: "error",toastLength: Toast.LENGTH_SHORT);
+      }
+    setState(() {
+      processing = false;
+    });
+  }
 
 
   signMeUP(){
@@ -209,20 +240,25 @@ class _ValidarEntrarState extends State<ValidarEntrar>{
                     ),
                   ),
                   SizedBox(height: 20,),
-                  Container(
-                    height: 30,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                            colors: [
-                              Color.fromRGBO(143, 148, 251, 1),
-                              Color.fromRGBO(143, 148, 251, 6),
-                            ]
-                          //
-                        )
-                    ),
-                    child: Center(
-                      child: Text("Entrar con google",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                  GestureDetector(
+                    onTap: (){
+                      registerUser();
+                    },
+                    child: Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(
+                              colors: [
+                                Color.fromRGBO(143, 148, 251, 1),
+                                Color.fromRGBO(143, 148, 251, 6),
+                              ]
+                            //
+                          )
+                      ),
+                      child: Center(
+                        child: Text("Entrar con google",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                      ),
                     ),
                   ),
                   SizedBox(height: 50,),

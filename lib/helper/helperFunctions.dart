@@ -49,4 +49,9 @@ class HelperFunctions{
     return await prefs.getString(sharedPreferencesUserAgeKey);
   }
 
+
+
+  //Funciones conexión con mysql
+
+
 }
