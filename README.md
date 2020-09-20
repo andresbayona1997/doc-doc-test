@@ -1,6 +1,8 @@
 # flutter_app
 
-A new Flutter application.
+Aplicación prueba desarrollador doc-doc
+
+Desarrollado por Andrés Bayona
 
 ## Getting Started
 
